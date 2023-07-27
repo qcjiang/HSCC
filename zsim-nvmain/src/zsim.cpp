@@ -28,7 +28,8 @@
 
 #include "zsim.h"
 #include <algorithm>
-#include <bits/signum.h>
+// #include <bits/signum.h>
+#include <unistd.h>
 #include <dlfcn.h>
 #include <execinfo.h>
 #include <fstream>
@@ -68,7 +69,7 @@
 #include "page-table/page_table.h"
 #include "memory_hierarchy.h"
 #include "ooo_core.h"
-#include "glog/logging.h"
+#include <glog/logging.h>
 
 /* Command-line switches (used to pass info from harness that cannot be passed through the config file, most config is file-based) */
 //proces id
