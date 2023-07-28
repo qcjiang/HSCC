@@ -54,7 +54,7 @@ def buildSim(cppFlags, dir, type, pgo=None):
     # NOTE: These flags are for the 28/02/2011 2.9 PIN kit (rev39599). Older versions will not build.
     # NOTE (dsm 10 Jan 2013): Tested with Pin 2.10 thru 2.12 as well
     # NOTE: Original Pin flags included -fno-strict-aliasing, but zsim does not do type punning
-    env["CPPFLAGS"] += " -g -std=c++0x -Wall -Wno-unknown-pragmas -fomit-frame-pointer -fno-stack-protector"
+    env["CPPFLAGS"] += " -g -std=c++0x -Wall -Wno-unknown-pragmas -Wno-deprecated -Wno-unused-function -Wno-catch-value -fomit-frame-pointer -fno-stack-protector"
     env["CPPFLAGS"] += " -MMD -DBIGARRAY_MULTIPLIER=1 -DUSING_XED -DTARGET_IA32E -DHOST_IA32E -fPIC -DTARGET_LINUX"
 
     # Pin 2.12+ kits have changed the layout of includes, detect whether we need
@@ -106,7 +106,8 @@ def buildSim(cppFlags, dir, type, pgo=None):
 	#env["LIBS"] += ["gflags"]
 
     env["LINKFLAGS"] = ""
-
+    env["RPATH"] = []
+    
     if useIcc:
         # icc libs
         env["LINKFLAGS"] += " -Wl,-R/data/sanchez/tools/intel/composer_xe_2013.1.117/compiler/lib/intel64/"
