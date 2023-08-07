@@ -181,7 +181,7 @@ class PageTableWalker: public BasePageTableWalker
 		bool inline map_shared_region( MemReq& req , void* page)
 		{
 			Address vaddr = req.lineAddr;
-			//std::cout<<"find out shared region"<<std::endl;
+			// std::cout<<"find out shared region"<<std::endl;
 			if( !zinfo->shared_region[procIdx].empty())
 			{
 				int vm_size = zinfo->shared_region[procIdx].size();

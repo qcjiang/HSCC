@@ -59,7 +59,7 @@ uint64_t Cache::access(MemReq& req) {
 
     bool skipAccess = cc->startAccess(req); //may need to skip access due to races (NOTE: may change req.type!);
 	if( skipAccess)
-		std::cout<<"skip access"<<std::endl;
+		// std::cout<<"skip access"<<std::endl;
     if (likely(!skipAccess)) {
         bool updateReplacement = (req.type == GETS) || (req.type == GETX);
         int32_t lineId = array->lookup(req.lineAddr, &req, updateReplacement);

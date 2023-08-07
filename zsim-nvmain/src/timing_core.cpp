@@ -70,7 +70,7 @@ void TimingCore::initStats(AggregateStat* parentStat) {
 
 void TimingCore::contextSwitch(int32_t gid) {
     if (gid == -1) {
-		std::cout<<"context_switch"<<std::endl;
+		// std::cout<<"context_switch"<<std::endl;
         l1i->contextSwitch();
         l1d->contextSwitch();
 		if(itlb)

@@ -1400,11 +1400,10 @@ VOID SimEnd() {
 				zinfo->pg_walkers[i]->calculate_stats();
 			}
 		}
-
-		for( unsigned i=0 ; i<(zinfo->numMemoryControllers);i++)
-		{
-			info("access of nvmain controller %d : %lu, read access count:%lu , write access count: %lu",i,dynamic_cast<NVMainMemory*>(zinfo->memoryControllers[i])->nvmain_access_count , dynamic_cast<NVMainMemory*>(zinfo->memoryControllers[i])->nvmain_read_access_count, dynamic_cast<NVMainMemory*>(zinfo->memoryControllers[i])->nvmain_write_access_count);
-		}	
+		// for( unsigned i=0 ; i<(zinfo->numMemoryControllers);i++)
+		// {
+		// 	info("access of nvmain controller %d : %lu, read access count:%lu , write access count: %lu",i,dynamic_cast<NVMainMemory*>(zinfo->memoryControllers[i])->nvmain_access_count , dynamic_cast<NVMainMemory*>(zinfo->memoryControllers[i])->nvmain_read_access_count, dynamic_cast<NVMainMemory*>(zinfo->memoryControllers[i])->nvmain_write_access_count);
+		// }	
         zinfo->sched->notifyTermination();
     }
     //Uncomment when debugging termination races, which can be rare because they are triggered by threads of a dying process

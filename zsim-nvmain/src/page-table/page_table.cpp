@@ -75,20 +75,6 @@ int NormalPaging::map_page_table(Address addr ,void* pg_ptr , bool is_buffer,
 		if( !is_valid(table, pt_entry_id) )
 			mapped_entry = (*table)[pt_entry_id];
 		validate_entry(table , pt_entry_id , pg_ptr , is_buffer);
-		/*
-		if( is_buffer)
-		{
-			//main memory block size is equal to buffer block size
-			//extend_one_buffer_map(addr,table,pg_ptr , pt_entry_id ,buffer_entry_id, buffer_table_entry_num, mapped_entry);
-			validate_entry(table , pt_entry_id , pg_ptr , true);
-		}
-		else
-		{
-			//debug_printf("validate entry %d",pt_entry_id);
-			//if( !is_valid(table, pt_entry_id) )
-			//	mapped_entry = (*table)[pt_entry_id];
-			validate_entry(table , pt_entry_id , pg_ptr , false);
-		}*/
 	}
 	//4MB Huge pages
 	else if( mode == Legacy_Huge)
@@ -96,20 +82,6 @@ int NormalPaging::map_page_table(Address addr ,void* pg_ptr , bool is_buffer,
 		if( !is_valid(page_directory, pd_entry_id) )
 			mapped_entry = (*page_directory)[pd_entry_id];
 		validate_entry(page_directory,pd_entry_id, pg_ptr, is_buffer);
-		/*
-		if( is_buffer)
-		{
-			//extend_one_buffer_map(addr ,page_directory,pg_ptr,pd_entry_id ,buffer_entry_id, buffer_table_entry_num, mapped_entry);
-			validate_entry(page_directory,pd_entry_id, pg_ptr, true);	
-		}
-		else
-		{
-			//if( !is_valid(page_directory, pd_entry_id) )
-			//	mapped_entry = (*page_directory)[pd_entry_id];
-			//std::cout<<"validate "<<pd_entry_id<<std::endl;
-			validate_entry(page_directory,pd_entry_id, pg_ptr, false);	
-			//std::cout<<"validate "<<pd_entry_id<<" end"<<std::endl;
-		}*/
 	}
 	latency = zinfo->mem_access_time*(1+allocate_time);	//allocate overhead
 	return latency;
