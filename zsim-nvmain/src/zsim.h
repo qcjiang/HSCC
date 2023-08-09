@@ -167,6 +167,7 @@ struct GlobSimInfo {
     volatile bool terminationConditionMet;
 
     const char* outputDir; //all the output files mst be dumped here. Stored because complex workloads often change dir, then spawn...
+    const char* outputdirectory;
 
     AggregateStat* rootStat;
     StatsBackend* periodicStatsBackend;

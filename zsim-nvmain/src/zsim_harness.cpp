@@ -199,7 +199,7 @@ static time_t startTime;
 static time_t lastHeartbeatTime;
 static uint64_t lastCycles = 0;
 
-static void printHeartbeat(GlobSimInfo* zinfo) {
+static void printHeartbeat(GlobSimInfo* zinfo, const char* heartbeatdir_) {
     uint64_t cycles = zinfo->numPhases*zinfo->phaseLength;
     time_t curTime = time(NULL);
     time_t elapsedSecs = curTime - startTime;
@@ -212,7 +212,13 @@ static void printHeartbeat(GlobSimInfo* zinfo) {
     char hostname[256];
     gethostname(hostname, 256);
 
-    std::ofstream hb("heartbeat");
+    std::string heartbeatdir = heartbeatdir_;
+
+    heartbeatdir += "/heartbeat";
+
+
+    // std::ofstream hb("heartbeat");
+    std::ofstream hb(heartbeatdir);
     hb << "Running on: " << hostname << std::endl;
     hb << "Start time: " << ctime_r(&startTime, time);
     hb << "Heartbeat time: " << ctime_r(&curTime, time);
@@ -401,6 +407,7 @@ int main(int argc, char *argv[]) {
     int32_t secsStalled = 0;
 
     int64_t lastNumPhases = 0;
+    const char* heartbeatdir = conf.get<const char*>("sim.outputdirectory", ".");
 
     while (getNumChildren() > 0) {
         if (!gm_isready()) {
@@ -414,7 +421,8 @@ int main(int argc, char *argv[]) {
             info("Attached to global heap");
         }
 
-        printHeartbeat(zinfo); //ensure we dump hostname etc on early crashes
+
+        printHeartbeat(zinfo, heartbeatdir); //ensure we dump hostname etc on early crashes
 
         int left = sleep(sleepLength);
         int secsSlept = sleepLength - left;
@@ -447,7 +455,7 @@ int main(int argc, char *argv[]) {
             }*/ //otherwise, activeProcs == 0; we're done
         }
 
-        printHeartbeat(zinfo);
+        printHeartbeat(zinfo, heartbeatdir);
 
         //This solves a weird race in multiprocess where SIGCHLD does not always fire...
         int cpid = -1;

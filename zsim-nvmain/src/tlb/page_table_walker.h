@@ -46,6 +46,7 @@ class PageTableWalker: public BasePageTableWalker
 			hscc_map_overhead = 0;
 			tlb_miss_exclude_shootdown = 0;
 			tlb_miss_overhead = 0;
+			tlb_miss_time = 0;
 			clflush_overhead = 0;
 			extra_write = 0;
 			futex_init(&walker_lock);
@@ -63,9 +64,11 @@ class PageTableWalker: public BasePageTableWalker
 			addr = paging->access(req);
 
 			tlb_miss_exclude_shootdown += (req.cycle - init_cycle);
+			tlb_miss_time++;
 			//page fault
 			if( addr == PAGE_FAULT_SIG )	
 			{
+				page_miss_time++;
 				addr = do_page_fault(req , PCM_PAGE_FAULT);
 				//std::cout<<"allocate page:"<<addr<<std::endl;
 				req.childId = 0;
@@ -109,6 +112,8 @@ class PageTableWalker: public BasePageTableWalker
 			info("%s DRAM page mapping overhead:%llu \n", getName(), hscc_map_overhead);
 			info("%s TLB miss overhead(exclude TLB shootdown and page fault): %llu", getName(),tlb_miss_exclude_shootdown);
 			info("%s TLB miss overhead (include TLB shootdown and page fault): %llu",getName(), tlb_miss_overhead);
+			info("%s TLB miss time: %llu",getName(), tlb_miss_time);
+			info("%s page miss time: %llu",getName(), page_miss_time);
 			info("%s clflush overhead caused by caching:%llu",getName(), clflush_overhead);
 			info("%s clflush overhead caused extra write:%llu",getName(), extra_write);
 		}
@@ -475,6 +480,8 @@ public:
 
 		unsigned long long tlb_miss_exclude_shootdown;
 		unsigned long long tlb_miss_overhead;
+		unsigned long long tlb_miss_time;
+		unsigned long long page_miss_time;
 
 		unsigned long long clflush_overhead;
 		unsigned long long extra_write;

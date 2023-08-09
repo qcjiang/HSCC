@@ -1052,7 +1052,8 @@ static void PostInitStats(bool perProcessDir, Config& config) {
     zinfo->rootStat->makeImmutable();
     zinfo->trigger = 15000;
 
-    string pathStr = zinfo->outputDir;
+    // string pathStr = zinfo->outputDir;
+    string pathStr = zinfo->outputdirectory;
     pathStr += "/";
 
     // Absolute paths for stats files. Note these must be in the global heap.
@@ -1123,8 +1124,13 @@ void SimInit(const char* configFile, const char* outputDir, uint32_t shmid) {
 	//alloc GlobalSimInfo object
     zinfo = gm_calloc<GlobSimInfo>();
 	//set log file path
-    zinfo->outputDir = gm_strdup(outputDir);
+    // const char* outputfile = "/staff/qcjiang/temp";
+    // zinfo->outputDir = gm_strdup(outputDir);
     Config config(configFile);
+    zinfo->outputdirectory = config.get<const char*>("sim.outputdirectory", ".");
+
+    zinfo->outputDir = gm_strdup(zinfo->outputdirectory);
+    
 
     //Debugging
     //NOTE: This should be as early as possible, so that we can attach to the debugger before initialization.
@@ -1276,6 +1282,7 @@ void SimInit(const char* configFile, const char* outputDir, uint32_t shmid) {
     config.get<uint32_t>("sim.gmMBytes", (1 << 10));
     if (!zinfo->attachDebugger) config.get<bool>("sim.deadlockDetection", true);
     config.get<bool>("sim.aslr", false);
+    
 
     //Write config out
     bool strictConfig = config.get<bool>("sim.strictConfig", true); //if true, panic on unused variables

@@ -1732,9 +1732,11 @@ int main(int argc, char *argv[]) {
     snprintf(header, sizeof(header), "[S %d] ", procIdx);
 	//write process idx and zsim.log file to logfile
     std::stringstream logfile_ss;
-    logfile_ss << KnobOutputDir.Value() << "/zsim.log." << procIdx;
+
+    // logfile_ss << KnobOutputDir.Value() << "/zsim.log." << procIdx;
+    // logfile_ss << zinfo->outputDir << "/zsim.log." << procIdx;
 	//init file object
-    InitLog(header, KnobLogToFile.Value()? logfile_ss.str().c_str() : NULL);
+    // InitLog(header, KnobLogToFile.Value()? logfile_ss.str().c_str() : NULL);
 
     //If parent dies, kill us
     //This avoids leaving strays running in any circumstances, but may be too heavy-handed with arbitrary process hierarchies.
@@ -1764,7 +1766,8 @@ int main(int argc, char *argv[]) {
 		}
         zinfo = static_cast<GlobSimInfo*>(gm_get_glob_ptr());
     }
-
+    logfile_ss << zinfo->outputDir << "/zsim.log." << procIdx;
+    InitLog(header,  zinfo->outputDir? logfile_ss.str().c_str() : NULL);
     //If assertion below fails, use this to print maps
 #if 0
     futex_lock(&zinfo->ffLock); //whatever lock, just don't interleave
