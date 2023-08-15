@@ -820,7 +820,7 @@ VOID VdsoCallPoint(THREADID tid) {
 
 VOID VdsoRetPoint(THREADID tid, REG* raxPtr) {
     if (vdsoPatchData[tid].level == 0) {
-        warn("vDSO return without matching call --- did we instrument all the functions?");
+        // warn("vDSO return without matching call --- did we instrument all the functions?");
         return;
     }
     vdsoPatchData[tid].level--;
