@@ -54,11 +54,13 @@ class CommonTlb: public BaseTlb
 			Address offset = virt_addr &(zinfo->page_size-1);
 			Address vpn = virt_addr >> (zinfo->page_shift);
 			T* entry = look_up(vpn);
+			// std::cout << "vpn: " << vpn << "   VA: " << virt_addr << "   TLB hit = " << (!entry ? "miss" : "hit") << std::endl;
 			Address ppn;
 			//TLB miss
 			if(!entry)
 			{
-				debug_printf("tlb miss: vaddr:%llx , cycle: %d ",virt_addr,req.cycle);
+				// debug_printf("tlb miss: vaddr:%llx , cycle: %d ",virt_addr,req.cycle);
+				// std::cout << "tlb miss vaddr:" << virt_addr << std::endl;
 				//page table walker
 				ppn = page_table_walker->access(req);
 				//update TLB

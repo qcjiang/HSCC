@@ -1431,7 +1431,7 @@ VOID HandleMagicOp(THREADID tid, ADDRINT op) {
                     info("ROI_BEGIN, exiting fast-forward");
                     ExitFastForward();
                 } else {
-                    warn("Ignoring ROI_BEGIN magic op, not in fast-forward");
+                    // warn("Ignoring ROI_BEGIN magic op, not in fast-forward");
                 }
                 futex_unlock(&zinfo->ffLock);
             }
@@ -1441,7 +1441,7 @@ VOID HandleMagicOp(THREADID tid, ADDRINT op) {
                 //TODO: Test whether this is thread-safe
                 futex_lock(&zinfo->ffLock);
                 if (procTreeNode->getSyncedFastForward()) {
-                    warn("Ignoring ROI_END magic op on synced FF to avoid deadlock");
+                    // warn("Ignoring ROI_END magic op on synced FF to avoid deadlock");
                 } else if (!procTreeNode->isInFastForward()) {
                     info("ROI_END, entering fast-forward");
                     EnterFastForward();
